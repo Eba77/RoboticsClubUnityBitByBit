@@ -15,6 +15,6 @@ function Update () {
 		this.GetComponent.<Rigidbody2D>().velocity = Vector2(0,6);
 	}
 	if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) {
-		this.GetComponent.<Rigidbody2D>().velocity = Vector2(6,-6);
+		this.GetComponent.<Rigidbody2D>().velocity = Vector2(0,-6);
 	}
 }
