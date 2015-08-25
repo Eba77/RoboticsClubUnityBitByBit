@@ -9,6 +9,9 @@ public static var health: int;
 public static var defense: int;
 public static var speed: int;
 
+//status
+public static var isJumping: boolean;
+
 //bits
 public static var bitsToSpend: int;
 public static var bitsSpent: int[]; 
@@ -24,6 +27,9 @@ public static var timesDied: int;
 public static var levelsEntered: int;
 
 function Start () {
+
+	isJumping = false;
+
 	bitsToSpend = 0;
 	bitsSpent = new int[5];
 	for (var i = 0;i<bitsSpent.length;i++) {
@@ -47,20 +53,29 @@ function Start () {
 function Update () {
 	//movement
 	var rigid = this.GetComponent.<Rigidbody2D>();
-	if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) {
-		rigid.velocity = Vector2(-speed,0);
+	if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) {
+		rigid.velocity = Vector2(-speed,rigid.velocity.y);
 	}
-	if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) {
-		rigid.velocity = Vector2(speed,0);
+	if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) {
+		rigid.velocity = Vector2(speed,rigid.velocity.y);
 	}
-	if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) {
-		rigid.velocity = Vector2(0,6);
+	if (!isJumping && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))) {
+		isJumping = true;
+		rigid.velocity = Vector2(rigid.velocity.x,6);
 	}
-	if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) {
-		rigid.velocity = Vector2(0,-6);
+	if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) {
+		rigid.velocity = Vector2(rigid.velocity.x,-6);
 	}
 	//status updates
 	if (health<=0) die();
+}
+
+function OnCollisionEnter2D(collision:Collision2D) {
+	var ground:GroundScript;
+	ground = collision.gameObject.GetComponent(GroundScript);
+	if (ground!=null) {
+		isJumping=false;
+	}
 }
 
 function die() {
