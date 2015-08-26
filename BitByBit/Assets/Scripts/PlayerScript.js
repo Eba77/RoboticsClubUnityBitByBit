@@ -70,7 +70,7 @@ function Update () {
 	if (health<=0) die();
 }
 
-function OnCollisionEnter2D(collision:Collision2D) {
+function OnCollisionStay2D(collision:Collision2D) {
 	var ground:GroundScript;
 	ground = collision.gameObject.GetComponent(GroundScript);
 	if (ground!=null) {
