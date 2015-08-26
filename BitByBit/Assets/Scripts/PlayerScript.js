@@ -85,7 +85,7 @@ function die() {
 	this.GetComponent.<Transform>().position = spawnPosition;
 }
 
-function loadLevel(code:int) {
+function loadLevel(code:int) { //later on this will actually LOAD a different level.
 	var position = this.GetComponent.<Transform>().position;
 	switch (code) {
 		case -1:
